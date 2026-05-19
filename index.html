@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>慢管加 | 慢性病全维度管理科普</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: #f4f7fb; color: #1e2b3c; line-height: 1.6; padding-bottom: 2rem;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.2rem; }
+    header {
+      background: linear-gradient(135deg, #0b4f6c 0%, #1f6f8b 100%);
+      color: white; padding: 2rem 1rem 1.5rem; text-align: center;
+    }
+    header h1 { font-size: 2.3rem; font-weight: 700; letter-spacing: 2px; margin-bottom: 0.25rem; }
+    header .sub { font-size: 1.1rem; opacity: 0.9; font-weight: 400; }
+    .disclaimer-top {
+      background: #fff3cd; border-left: 6px solid #ffa726;
+      margin: 1rem auto 0; padding: 0.6rem 1.2rem; border-radius: 10px;
+      font-size: 0.9rem; color: #5d4e37; max-width: 900px; text-align: left;
+    }
+    nav {
+      background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      position: sticky; top: 0; z-index: 20; padding: 0.6rem 1rem;
+      display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;
+    }
+    nav a {
+      text-decoration: none; background: #e8f0f4; color: #0b4f6c;
+      padding: 0.4rem 1rem; border-radius: 30px; font-weight: 500; font-size: 0.9rem; transition: 0.2s;
+    }
+    nav a:hover, nav a.active { background: #0b4f6c; color: white; }
+    .disease-section {
+      background: white; border-radius: 18px; margin: 1.8rem 0;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04); overflow: hidden;
+    }
+    .disease-header {
+      background: #f0f6fa; padding: 1.3rem 1.5rem; border-bottom: 1px solid #dce7ef;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .disease-header h2 { font-size: 1.8rem; color: #0b4f6c; font-weight: 700; }
+    .disease-header .badge { background: #0b4f6c; color: white; padding: 0.25rem 1rem; border-radius: 30px; font-size: 0.8rem; }
+    .accordion-item { border-bottom: 1px solid #e9edf2; }
+    .accordion-btn {
+      width: 100%; background: none; border: none; text-align: left; padding: 1rem 1.5rem;
+      font-size: 1.05rem; font-weight: 600; color: #1e2b3c; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; background: #ffffff; transition: background 0.2s;
+    }
+    .accordion-btn:hover { background: #f8fafc; }
+    .accordion-btn::after { content: '+'; font-size: 1.5rem; font-weight: 300; color: #0b4f6c; }
+    .accordion-btn.active::after { content: '−'; }
+    .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; background: #fafcfd; }
+    .accordion-content-inner { padding: 0 1.5rem 1.2rem; color: #2c3e50; }
+    .accordion-content-inner ul { padding-left: 1.5rem; margin: 0.5rem 0; }
+    .accordion-content-inner li { margin-bottom: 0.4rem; }
+    .highlight-box {
+      background: #e6f3f9; border-left: 5px solid #1f6f8b; padding: 0.8rem 1.2rem;
+      border-radius: 8px; margin: 1rem 0; font-weight: 500;
+    }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+    th { background: #1f6f8b; color: white; padding: 0.6rem; text-align: left; }
+    td { padding: 0.6rem; border-bottom: 1px solid #ddd; }
+    .comment-section {
+      background: white; border-radius: 18px; padding: 1.8rem 1.5rem; margin: 2rem 0;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+    }
+    .comment-section h2 { color: #0b4f6c; margin-bottom: 1rem; }
+    .comment-form textarea { width: 100%; padding: 0.8rem; border-radius: 12px; border: 1px solid #ccdbe5; resize: vertical; margin-bottom: 0.5rem; }
+    .comment-form input[type="text"] { width: 100%; padding: 0.7rem; border-radius: 12px; border: 1px solid #ccdbe5; margin-bottom: 0.8rem; }
+    .btn { background: #0b4f6c; color: white; border: none; padding: 0.6rem 1.8rem; border-radius: 30px; font-weight: 600; cursor: pointer; }
+    .btn:hover { background: #083b4f; }
+    .comment-list { margin-top: 1.5rem; }
+    .comment-item { background: #f6f9fc; padding: 0.8rem 1.2rem; border-radius: 12px; margin-bottom: 0.8rem; border-left: 4px solid #1f6f8b; }
+    .comment-meta { font-size: 0.8rem; color: #5f6b7a; margin-bottom: 0.25rem; }
+    .footer-note { text-align: center; font-size: 0.85rem; color: #5f6b7a; margin-top: 2rem; border-top: 1px solid #ddd; padding-top: 1.5rem; }
+    @media (max-width: 600px) { header h1 { font-size: 1.8rem; } .disease-header h2 { font-size: 1.4rem; } }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>慢管加 <span style="font-weight:300;">| ChronicCare+</span></h1>
+    <p class="sub">读懂你的慢性病，让管理有据可依</p>
+  </div>
+  <div class="disclaimer-top container">
+    ⚕️ 本网站内容仅供参考，不能替代医生的专业诊断与治疗建议。所有信息依据国家公开发布的诊疗指南整理，请在医生指导下进行疾病管理。
+  </div>
+</header>
+
+<nav class="container">
+  <a href="#hypertension">🫀高血压</a> <a href="#diabetes">🩸糖尿病</a> <a href="#copd">🫁慢阻肺</a>
+  <a href="#as">🦴强直</a> <a href="#ra">🤲类风湿</a> <a href="#sle">🦋狼疮</a>
+  <a href="#ckd">🧪肾病</a> <a href="#cancer">🎗️肿瘤</a> <a href="#gout">🦶痛风</a>
+  <a href="#comments">💬留言</a>
+</nav>
+
+<main class="container">
+  <!-- 高血压 -->
+  <section id="hypertension" class="disease-section">
+    <div class="disease-header"><h2>🫀 高血压</h2><span class="badge">约3.1亿患者</span></div>
+    <div class="accordion-item"><button class="accordion-btn">发病原因</button><div class="accordion-content"><div class="accordion-content-inner"><p>原发性高血压由遗传与环境交互作用所致。高盐饮食、肥胖、精神应激、吸烟、饮酒是主要危险因素。继发性高血压约占5%，由肾脏疾病、内分泌疾病等引起。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">发病率</button><div class="accordion-content"><div class="accordion-content-inner"><p>我国成人高血压患病率约27.9%，知晓率、治疗率、控制率仍偏低。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">疾病特征</button><div class="accordion-content"><div class="accordion-content-inner"><p>动脉血压持续升高，常无症状。可有头晕、头痛、心悸等。长期升高导致靶器官损害。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">不良结局</button><div class="accordion-content"><div class="accordion-content-inner"><p>脑卒中、冠心病、心力衰竭、肾功能衰竭、主动脉夹层等。血压每升高20/10mmHg，心血管风险倍增。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">系统管理与达标</button><div class="accordion-content"><div class="accordion-content-inner"><div class="highlight-box">一般患者＜130/80 mmHg；≥80岁＜150/90 mmHg，耐受可至＜140/90 mmHg。</div><p>低盐饮食（每日＜5g）、规律运动、控制体重、戒烟限酒、心理平衡。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">如何配合医生与治疗方案</button><div class="accordion-content"><div class="accordion-content-inner"><p>遵医嘱长期服药，常用药物包括ACEI/ARB、CCB、利尿剂等。切勿自行停药。家庭自测血压，记录供医生参考。控制良好每3个月复查，不佳每月复查。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">复查与病情进展监测</button><div class="accordion-content"><div class="accordion-content-inner"><p>复查项目：血压、电解质、肾功能、尿常规、心电图、心脏超声等。根据靶器官损害情况增加检查频率。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">防止复发与并发症</button><div class="accordion-content"><div class="accordion-content-inner"><p>严格降压达标是预防核心。管理血脂、血糖，抗血小板治疗（部分患者）。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">饮食与锻炼</button><div class="accordion-content"><div class="accordion-content-inner"><p>DASH饮食：多果蔬、全谷物、低脂奶，减少红肉。每周≥150分钟中等强度有氧运动，如快走、游泳。</p></div></div></div>
+  </section>
+
+  <!-- 糖尿病 -->
+  <section id="diabetes" class="disease-section">
+    <div class="disease-header"><h2>🩸 糖尿病</h2><span class="badge">2.33亿患者</span></div>
+    <div class="accordion-item"><button class="accordion-btn">发病原因</button><div class="accordion-content"><div class="accordion-content-inner"><p>2型为主，胰岛素抵抗和胰岛素分泌不足。遗传、肥胖、不健康饮食、缺乏运动是主因。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">发病率</button><div class="accordion-content"><div class="accordion-content-inner"><p>2023年患病率13.67%，知晓率仅36.7%，控制率50.1%。年轻化趋势明显。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">疾病特征</button><div class="accordion-content"><div class="accordion-content-inner"><p>“三多一少”，常合并高血压、血脂异常。许多患者早期无症状。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">不良结局</button><div class="accordion-content"><div class="accordion-content-inner"><p>微血管：肾病、视网膜病变、神经病变。大血管：心梗、脑卒中。糖尿病足可致截肢。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">系统管理（五驾马车）</button><div class="accordion-content"><div class="accordion-content-inner"><div class="highlight-box">HbA1c＜7.0%，空腹4.4-7.0mmol/L，餐后＜10.0mmol/L。</div><p>饮食、运动、药物、监测、教育。综合管理血压、血脂、体重。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">治疗方案与配合调整</button><div class="accordion-content"><div class="accordion-content-inner"><p>二甲双胍为基础，可联用SGLT2i、GLP-1RA等。根据血糖监测调整剂量，必要时启用胰岛素。每3-6个月测HbA1c。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">复查与进展预警</button><div class="accordion-content"><div class="accordion-content-inner"><p>每年查眼底、尿微量白蛋白/肌酐、神经病变筛查。定期血脂、肝肾功能。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">防复发与并发症</button><div class="accordion-content"><div class="accordion-content-inner"><p>HbA1c每降1%可减少心血管事件。减重5%显著改善代谢。严防低血糖。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">饮食与锻炼</button><div class="accordion-content"><div class="accordion-content-inner"><p>控制总热量，定时定量。优选低GI食物。每周150-300分钟中等强度运动，结合抗阻训练。餐后1-2小时运动为佳。</p></div></div></div>
+  </section>
+
+  <!-- 慢阻肺 -->
+  <section id="copd" class="disease-section">
+    <div class="disease-header"><h2>🫁 慢阻肺</h2><span class="badge">约1.37亿</span></div>
+    <div class="accordion-item"><button class="accordion-btn">发病原因</button><div class="accordion-content"><div class="accordion-content-inner"><p>吸烟为主要病因，生物燃料暴露、空气污染、遗传因素等参与。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">发病率与特征</button><div class="accordion-content"><div class="accordion-content-inner"><p>40岁以上人群患病率13.7%。持续性气流受限，咳嗽咳痰、呼吸困难。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">不良结局</button><div class="accordion-content"><div class="accordion-content-inner"><p>急性加重加速肺功能下降，可致呼吸衰竭、肺心病。常合并心血管病、骨质疏松。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">系统管理与达标</button><div class="accordion-content"><div class="accordion-content-inner"><p>戒烟是首位。吸入支气管舒张剂为核心。肺康复锻炼、长期氧疗（必要时）。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">配合医生与治疗调整</button><div class="accordion-content"><div class="accordion-content-inner"><p>定期肺功能检查，根据症状和急性加重史调整吸入药物。接种流感、肺炎疫苗。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">复查监测</button><div class="accordion-content"><div class="accordion-content-inner"><p>每3-6个月评估症状，每年肺功能。急性加重后及时复诊。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">饮食与锻炼</button><div class="accordion-content"><div class="accordion-content-inner"><p>高蛋白、富含维生素饮食。呼吸康复训练（缩唇呼吸、腹式呼吸）。适量有氧运动。</p></div></div></div>
+  </section>
+
+  <!-- 强直性脊柱炎 -->
+  <section id="as" class="disease-section">
+    <div class="disease-header"><h2>🦴 强直性脊柱炎</h2><span class="badge">约500万</span></div>
+    <div class="accordion-item"><button class="accordion-btn">发病原因</button><div class="accordion-content"><div class="accordion-content-inner"><p>遗传(HLA-B27)与环境(感染)交互作用。HLA-B27阳性者发病率显著升高。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">发病率</button><div class="accordion-content"><div class="accordion-content-inner"><p>我国患病率0.2%-0.38%，15-35岁男性高发，男女比约2-4:1。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">疾病特征</button><div class="accordion-content"><div class="accordion-content-inner"><p>炎性腰背痛（休息加重，活动减轻）、晨僵、附着点炎。可伴髋关节炎、葡萄膜炎。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">不良结局</button><div class="accordion-content"><div class="accordion-content-inner"><p>脊柱强直、髋关节破坏致残。眼部炎症、心血管受累。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">系统管理(达标治疗)</button><div class="accordion-content"><div class="accordion-content-inner"><p>目标：控制症状、维持功能、防止结构进展。NSAIDs、生物制剂(TNFi/IL-17i)。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">配合医生与复查</button><div class="accordion-content"><div class="accordion-content-inner"><p>每3-6个月评估疾病活动度(BASDAI)、CRP。每年影像学。功能锻炼至关重要。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">防复发与饮食锻炼</button><div class="accordion-content"><div class="accordion-content-inner"><p>游泳最佳运动，维持脊柱活动度。戒烟。均衡饮食，补充钙和维生素D。</p></div></div></div>
+  </section>
+
+  <!-- 类风湿关节炎 -->
+  <section id="ra" class="disease-section">
+    <div class="disease-header"><h2>🤲 类风湿关节炎</h2><span class="badge">约500万</span></div>
+    <div class="accordion-item"><button class="accordion-btn">发病原因</button><div class="accordion-content"><div class="accordion-content-inner"><p>遗传易感(HLA-DRB1)+环境(吸烟、感染)触发自身免疫反应。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">发病率</button><div class="accordion-content"><div class="accordion-content-inner"><p>患病率0.32%-0.42%，30-50岁女性为主，男女比约1:3。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">疾病特征</button><div class="accordion-content"><div class="accordion-content-inner"><p>对称性多关节炎，晨僵≥1小时。可导致关节畸形。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">不良结局</button><div class="accordion-content"><div class="accordion-content-inner"><p>关节功能丧失、残疾。心血管疾病风险增加。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">系统管理(达标治疗T2T)</button><div class="accordion-content"><div class="accordion-content-inner"><p>目标：临床缓解或低疾病活动度。甲氨蝶呤锚定药，联用生物/靶向DMARDs。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">复查与病情监测</button><div class="accordion-content"><div class="accordion-content-inner"><p>活动期每1-3月评估DAS28/CDAI。稳定期3-6月。监测ESR/CRP、关节超声。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">防复发与饮食锻炼</button><div class="accordion-content"><div class="accordion-content-inner"><p>地中海饮食，ω-3脂肪酸。缓解期游泳、太极；急性期休息。</p></div></div></div>
+  </section>
+
+  <!-- 系统性红斑狼疮 -->
+  <section id="sle" class="disease-section">
+    <div class="disease-header"><h2>🦋 系统性红斑狼疮</h2><span class="badge">约100万</span></div>
+    <div class="accordion-item"><button class="accordion-btn">发病原因</button><div class="accordion-content"><div class="accordion-content-inner"><p>遗传、雌激素、紫外线、病毒感染等多因素。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">发病率</button><div class="accordion-content"><div class="accordion-content-inner"><p>患病率30-70/10万，育龄期女性高发，男女比约1:10。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">疾病特征</button><div class="accordion-content"><div class="accordion-content-inner"><p>多系统受累，蝶形红斑、光过敏、关节炎、肾脏损害。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">不良结局</button><div class="accordion-content"><div class="accordion-content-inner"><p>狼疮性肾炎可致尿毒症，神经精神狼疮，心血管并发症。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">系统管理(达标治疗)</button><div class="accordion-content"><div class="accordion-content-inner"><p>目标：缓解或低疾病活动状态(LLDAS)。羟氯喹为基础，免疫抑制剂、生物制剂。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">复查与预警</button><div class="accordion-content"><div class="accordion-content-inner"><p>每3-6月监测抗ds-DNA、补体C3/C4、尿蛋白。及时识别复发。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">防复发与生活管理</button><div class="accordion-content"><div class="accordion-content-inner"><p>严格防晒，避免光敏食物，管理压力。规律作息，适当运动。</p></div></div></div>
+  </section>
+
+  <!-- 慢性肾脏病 -->
+  <section id="ckd" class="disease-section">
+    <div class="disease-header"><h2>🧪 慢性肾脏病</h2><span class="badge">约1.56亿</span></div>
+    <div class="accordion-item"><button class="accordion-btn">发病原因</button><div class="accordion-content"><div class="accordion-content-inner"><p>糖尿病、高血压、肾小球肾炎、多囊肾等。我国以IgA肾病常见。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">发病率与特征</button><div class="accordion-content"><div class="accordion-content-inner"><p>成人患病率约10.8%，知晓率低。早期无症状，后期水肿、贫血、高血压。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">不良结局</button><div class="accordion-content"><div class="accordion-content-inner"><p>终末期肾病(尿毒症)需透析或移植，心血管死亡风险剧增。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">系统管理与复查</button><div class="accordion-content"><div class="accordion-content-inner"><div class="highlight-box">基于eGFR和尿白蛋白风险分层：低危每年1次，高危每4-6月，极高危每1-3月。</div><p>控制原发病，优质低蛋白饮食，纠正贫血、钙磷紊乱。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">配合医生与治疗</button><div class="accordion-content"><div class="accordion-content-inner"><p>使用RAS阻断剂、SGLT2i等肾脏保护药物。避免肾毒性药物。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">饮食与锻炼</button><div class="accordion-content"><div class="accordion-content-inner"><p>优质低蛋白(0.8g/kg/d)，低盐(钠<2g/d)，限磷限钾。适量有氧运动。</p></div></div></div>
+  </section>
+
+  <!-- 恶性肿瘤 -->
+  <section id="cancer" class="disease-section">
+    <div class="disease-header"><h2>🎗️ 恶性肿瘤</h2><span class="badge">年新发482万</span></div>
+    <div class="accordion-item"><button class="accordion-btn">发病原因</button><div class="accordion-content"><div class="accordion-content-inner"><p>遗传、环境(吸烟、污染、感染)、生活方式多因素。多数由环境因素诱发。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">发病率</button><div class="accordion-content"><div class="accordion-content-inner"><p>肺癌、结直肠癌、甲状腺癌居前。5年生存率43.7%，早期发现预后好。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">疾病特征与预警信号</button><div class="accordion-content"><div class="accordion-content-inner"><p>“血、块、痛、烧、瘦”：异常出血、肿块、疼痛、发热、消瘦。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">不良结局</button><div class="accordion-content"><div class="accordion-content-inner"><p>转移导致多器官衰竭、恶病质。80%癌症死亡与转移相关。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">系统管理与复查</button><div class="accordion-content"><div class="accordion-content-inner"><p>多学科综合治疗。术后1-2年每3月复查，3-5年每6月，5年后每年1次。影像学+肿瘤标志物。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">防复发与生活</button><div class="accordion-content"><div class="accordion-content-inner"><p>健康饮食、控制体重、规律运动(每周150-300分钟)、戒烟限酒。</p></div></div></div>
+  </section>
+
+  <!-- 痛风 -->
+  <section id="gout" class="disease-section">
+    <div class="disease-header"><h2>🦶 痛风</h2><span class="badge">高尿酸人群庞大</span></div>
+    <div class="accordion-item"><button class="accordion-btn">发病原因</button><div class="accordion-content"><div class="accordion-content-inner"><p>嘌呤代谢紊乱导致高尿酸血症，尿酸盐结晶沉积。与遗传、饮食、酒精、肥胖相关。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">发病率</button><div class="accordion-content"><div class="accordion-content-inner"><p>高尿酸血症患病率约13.3%，痛风约1.1%。男性显著多于女性。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">疾病特征</button><div class="accordion-content"><div class="accordion-content-inner"><p>急性关节炎突发剧痛，第一跖趾关节最常见。慢性期痛风石、肾结石。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">不良结局</button><div class="accordion-content"><div class="accordion-content-inner"><p>关节破坏、肾功能损害。与代谢综合征密切相关。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">系统管理与达标</button><div class="accordion-content"><div class="accordion-content-inner"><div class="highlight-box">血尿酸目标：普通＜360μmol/L，有痛风石＜300μmol/L。</div><p>急性期抗炎止痛，缓解期降尿酸治疗(别嘌醇/非布司他)。长期达标。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">复查与治疗调整</button><div class="accordion-content"><div class="accordion-content-inner"><p>初始每2-4周测血尿酸，达标后每3-6月。监测肾功能。根据尿酸调整药物剂量。</p></div></div></div>
+    <div class="accordion-item"><button class="accordion-btn">防复发与饮食锻炼</button><div class="accordion-content"><div class="accordion-content-inner"><p>限制高嘌呤食物(内脏、海鲜)，戒酒，多饮水(＞2000ml/日)。控制体重，规律运动。</p></div></div></div>
+  </section>
+
+  <!-- 留言板 -->
+  <section id="comments" class="comment-section">
+    <h2>💬 病友留言·经验分享</h2>
+    <p style="color:#4a5c6b; margin-bottom:1rem;">欢迎理性交流疾病管理心得，请勿发布医疗建议、广告或偏方。留言内容仅代表个人观点。</p>
+    <div class="comment-form">
+      <input type="text" id="nickname" placeholder="您的昵称（选填）" maxlength="20">
+      <textarea id="message" rows="3" placeholder="分享您的管理经验或疑问..."></textarea>
+      <button class="btn" id="submitComment">发布留言</button>
+    </div>
+    <div class="comment-list" id="commentList"></div>
+  </section>
+</main>
+
+<footer class="container footer-note">
+  <p>© 2025 慢管加 ChronicCare+ ｜ 内容依据国家公开发布诊疗指南整理，仅供健康教育参考，不构成医疗建议。</p>
+  <p>如有不适请及时前往正规医疗机构就诊。</p>
+</footer>
+
+<script>
+  (function() {
+    const accordionBtns = document.querySelectorAll('.accordion-btn');
+    accordionBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.classList.toggle('active');
+        const content = this.nextElementSibling;
+        if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+          content.style.maxHeight = '0px';
+        } else {
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
+      });
+    });
+
+    const commentListEl = document.getElementById('commentList');
+    const submitBtn = document.getElementById('submitComment');
+    const nicknameInput = document.getElementById('nickname');
+    const messageInput = document.getElementById('message');
+
+    function loadComments() {
+      const stored = localStorage.getItem('chroniccare_comments_v2');
+      const comments = stored ? JSON.parse(stored) : [];
+      renderComments(comments);
+    }
+
+    function renderComments(comments) {
+      if (!commentListEl) return;
+      if (comments.length === 0) {
+        commentListEl.innerHTML = '<p style="color:#7d8b99; text-align:center; padding:1rem;">暂无留言，成为第一个分享者吧。</p>';
+        return;
+      }
+      let html = '';
+      comments.slice().reverse().forEach(c => {
+        const nick = c.nickname || '匿名用户';
+        const time = c.time || '';
+        const msg = c.message.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        html += `<div class="comment-item"><div class="comment-meta">${nick} · ${time}</div><div>${msg}</div></div>`;
+      });
+      commentListEl.innerHTML = html;
+    }
+
+    submitBtn.addEventListener('click', function() {
+      const nickname = nicknameInput.value.trim();
+      const message = messageInput.value.trim();
+      if (!message) { alert('请输入留言内容'); return; }
+      if (message.length > 500) { alert('留言内容请控制在500字以内'); return; }
+      const newComment = {
+        nickname: nickname || '匿名用户',
+        message: message,
+        time: new Date().toLocaleString('zh-CN')
+      };
+      const stored = localStorage.getItem('chroniccare_comments_v2');
+      const comments = stored ? JSON.parse(stored) : [];
+      comments.push(newComment);
+      localStorage.setItem('chroniccare_comments_v2', JSON.stringify(comments));
+      nicknameInput.value = '';
+      messageInput.value = '';
+      renderComments(comments);
+    });
+
+    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    loadComments();
+  })();
+</script>
+</body>
+</html>
